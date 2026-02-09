@@ -1,13 +1,15 @@
-#ifndef phonebook
-#define phonebook
+
+#include <iostream>
+#include <cctype>
 
 using namespace std;
 
 class Contacts
 {
     public:
-
-}
+        char *name;
+        int  number;
+};
 
 class Phonebook
 {
@@ -17,9 +19,7 @@ class Phonebook
     public:
         Phonebook();
         ~Phonebook();
-        addContact();
-        searchContact();
-        displayContact();
-}
-
-#endif 
+        void addContact();
+        void searchContact();
+        void displayContact();
+};
