@@ -1,8 +1,25 @@
 #include "Phonebook.hpp"
 
+
+Phonebook::Phonebook(): contacts(), count(0), max(8)
+{
+    std::cout << "construtor " << std::endl;
+}
+
+Phonebook::~Phonebook(){
+    std::cout << "destrutor " << std::endl;
+}
+
+void Phonebook::addContact(void)
+{
+    if (count == max)
+    {
+        contacts[0] =
+    }
+}
+
 int main(void)
 {
-
     Phonebook phone;
     while (42)
     {
