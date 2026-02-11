@@ -1,24 +1,24 @@
 
 #include <iostream>
+#include <iomanip>
 #include <cctype>
 
 
 class Contacts
 {
     private:
-        std::string fisrtname;
+        std::string firstname;
         std::string lastname;
         std::string nickname;
         std::string darksecret;
-        int  number;
+        std::string number;
     public:
         Contacts();
         ~Contacts();
-        void setfirstname();
-        void setlastname();
-        void setnickname();
-        void setsecret();
-        void setnumber();
+        void updateContact();
+        std::string getfirstname();
+        std::string getlastname();
+        std::string getnickname();
 };
 
 class Phonebook
@@ -33,5 +33,4 @@ class Phonebook
         void addContact();
         void replaceContact();
         void searchContact();
-        void displayContact();
 };
