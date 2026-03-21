@@ -7,9 +7,8 @@ class Harlfilter{
     public:
         Harlfilter(void);
         ~Harlfilter(void);
-        void    complain(std::string level, int n);
+        void    complain(std::string level);
     private:
-        void    filter(Harlfilter *ptr, int n);
         void    info(void);
         void    error(void);
         void    debug(void);
