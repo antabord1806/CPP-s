@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string.h>
 #include <cstdlib>
+#include <vector>
 
 class BitcoinExchange{
     public:
@@ -17,10 +18,10 @@ class BitcoinExchange{
         ~BitcoinExchange(void);
         void processingInput(std::string input);
     private:
-        std::map<std::string, double> _dataBase;
+        std::vector<std::pair<std::string, double> > _input;
         int    dateParsing(std::string date);
         void    importingData(void);
-        void    comparingData(std::map<std::string, double> database);
+        void    comparingData(const std::map<std::string, double> &database);
 };
 
 #endif

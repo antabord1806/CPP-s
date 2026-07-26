@@ -2,13 +2,13 @@
 
 BitcoinExchange::BitcoinExchange(void){}
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy): _dataBase(copy._dataBase){}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy): _input(copy._input){}
 
 BitcoinExchange::~BitcoinExchange(void){}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &copy){
     if (this != &copy)
-        _dataBase = copy._dataBase;
+        _input = copy._input;
     return *this;
 }
 
@@ -39,7 +39,6 @@ void BitcoinExchange::processingInput(std::string input){
     std::ifstream stream(input.c_str());
     std::string line;
 
-    
     if (!stream.is_open())
         throw std::runtime_error("Error: could not open input file.");
 
@@ -48,12 +47,11 @@ void BitcoinExchange::processingInput(std::string input){
         std::string::size_type delPos = line.find('|');
         double value;
 
-        if (delPos == std::string::npos)
-        {
+        if (delPos == std::string::npos){
             std::cout << "Error: bad input => " << line << std::endl;
             continue;
         }
-
+        
         std::string date = trim(line.substr(0, delPos));
         std::string valueString = trim(line.substr(delPos + 1));
 
@@ -63,7 +61,7 @@ void BitcoinExchange::processingInput(std::string input){
             continue;
         }
 
-        _dataBase.insert(std::make_pair(date, value));
+        _input.push_back(std::make_pair(date, value));
     }
 
     importingData();
@@ -141,23 +139,22 @@ void BitcoinExchange::importingData(){
     comparingData(data);
 }
 
-void BitcoinExchange::comparingData( std::map<std::string, double> dataset){
-    std::map<std::string, double>::iterator inputIt;
-    std::map<std::string, double>::iterator datasetIt;
+void BitcoinExchange::comparingData( const std::map<std::string, double> &dataset){
+    std::map<std::string, double>::const_iterator datasetIt;
     double printValue;
 
-    for (inputIt = _dataBase.begin(); inputIt != _dataBase.end(); inputIt++){
-        if (!dateParsing(inputIt->first)){
-            std::cout << "Error: bad input => " << inputIt->first << std::endl;
+    for (std::vector<std::pair<std::string, double> >::size_type inputIt = 0; inputIt < _input.size(); inputIt++){
+        if (!dateParsing(_input[inputIt].first)){
+            std::cout << "Error: bad input => " << _input[inputIt].first << std::endl;
             continue;
         }
 
-        if (inputIt->second > 1000){
+        if (_input[inputIt].second > 1000){
             std::cout << "Error: too large a number" << std::endl;
             continue;
         }
 
-        if (inputIt->second < 0){
+        if (_input[inputIt].second < 0){
             std::cout << "Error: not a positive number" << std::endl;
             continue;
         }
@@ -167,22 +164,22 @@ void BitcoinExchange::comparingData( std::map<std::string, double> dataset){
             return;
         }
 
-        datasetIt = dataset.lower_bound(inputIt->first);
+        datasetIt = dataset.lower_bound(_input[inputIt].first);
 
         if (datasetIt == dataset.end())
             --datasetIt;
-        else if (datasetIt->first != inputIt->first)
+        else if (datasetIt->first != _input[inputIt].first)
         {
             if (datasetIt == dataset.begin())
             {
-                std::cout << "Error: no previous date available => " << inputIt->first << std::endl;
+                std::cout << "Error: no previous date available => " << _input[inputIt].first << std::endl;
                 continue;
             }
 
             --datasetIt;
         }
 
-        printValue = inputIt->second * datasetIt->second;
-        std::cout << inputIt->first << " => " << inputIt->second << " = " << printValue << std::endl;
+        printValue = _input[inputIt].second * datasetIt->second;
+        std::cout << _input[inputIt].first << " => " << _input[inputIt].first << " = " << printValue << std::endl;
     }
 }
