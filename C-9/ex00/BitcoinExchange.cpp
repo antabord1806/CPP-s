@@ -2,13 +2,14 @@
 
 BitcoinExchange::BitcoinExchange(void){}
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy): _input(copy._input){}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy){
+    (void)copy;
+}
 
 BitcoinExchange::~BitcoinExchange(void){}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &copy){
-    if (this != &copy)
-        _input = copy._input;
+    (void)copy;
     return *this;
 }
 
@@ -36,35 +37,7 @@ static bool convertDouble(const std::string &str, double &value){
 }
 
 void BitcoinExchange::processingInput(std::string input){
-    std::ifstream stream(input.c_str());
-    std::string line;
-
-    if (!stream.is_open())
-        throw std::runtime_error("Error: could not open input file.");
-
-    while (std::getline(stream, line))
-    {
-        std::string::size_type delPos = line.find('|');
-        double value;
-
-        if (delPos == std::string::npos){
-            std::cout << "Error: bad input => " << line << std::endl;
-            continue;
-        }
-        
-        std::string date = trim(line.substr(0, delPos));
-        std::string valueString = trim(line.substr(delPos + 1));
-
-        if (!convertDouble(valueString, value))
-        {
-            std::cout << "Error: bad input => " << line << std::endl;
-            continue;
-        }
-
-        _input.push_back(std::make_pair(date, value));
-    }
-
-    importingData();
+    importingData(input);
 }
 
 int BitcoinExchange::dateParsing(std::string date){
@@ -109,13 +82,17 @@ int BitcoinExchange::dateParsing(std::string date){
     return 1;
 }
 
-void BitcoinExchange::importingData(){
+void BitcoinExchange::importingData(const std::string &inputFile){
+    std::ifstream input(inputFile.c_str());
     std::ifstream file("data.csv");
     std::map<std::string, double> data;
     std::string line;
 
     if (!file.is_open())
         throw std::out_of_range("Cant read database!");
+
+    if (!input.is_open())
+        throw std::runtime_error("Error: could not open input file.");
 
     std::getline(file, line);
 
@@ -136,50 +113,65 @@ void BitcoinExchange::importingData(){
         data.insert(std::make_pair(date, value));
     }
 
-    comparingData(data);
+    while (std::getline(input, line))
+        comparingData(data, line);
 }
 
-void BitcoinExchange::comparingData( const std::map<std::string, double> &dataset){
+void BitcoinExchange::comparingData(const std::map<std::string, double> &dataset, const std::string &line){
     std::map<std::string, double>::const_iterator datasetIt;
     double printValue;
+    std::string::size_type delPos = line.find('|');
+    double value;
 
-    for (std::vector<std::pair<std::string, double> >::size_type inputIt = 0; inputIt < _input.size(); inputIt++){
-        if (!dateParsing(_input[inputIt].first)){
-            std::cout << "Error: bad input => " << _input[inputIt].first << std::endl;
-            continue;
-        }
+    if (delPos == std::string::npos){
+        std::cout << "Error: bad input => " << line << std::endl;
+        return;
+    }
 
-        if (_input[inputIt].second > 1000){
-            std::cout << "Error: too large a number" << std::endl;
-            continue;
-        }
+    std::string date = trim(line.substr(0, delPos));
+    std::string valueString = trim(line.substr(delPos + 1));
 
-        if (_input[inputIt].second < 0){
-            std::cout << "Error: not a positive number" << std::endl;
-            continue;
-        }
+    if (!convertDouble(valueString, value))
+    {
+        std::cout << "Error: bad input => " << line << std::endl;
+        return;
+    }
 
-        if (dataset.empty()){
-            std::cout << "Error: empty database" << std::endl;
+    if (!dateParsing(date)){
+        std::cout << "Error: bad input => " << date << std::endl;
+        return;
+    }
+
+    if (value > 1000){
+        std::cout << "Error: too large a number" << std::endl;
+        return;
+    }
+
+    if (value < 0){
+        std::cout << "Error: not a positive number." << std::endl;
+        return;
+    }
+
+    if (dataset.empty()){
+        std::cout << "Error: empty database" << std::endl;
+        return;
+    }
+
+    datasetIt = dataset.lower_bound(date);
+
+    if (datasetIt == dataset.end())
+        --datasetIt;
+    else if (datasetIt->first != date)
+    {
+        if (datasetIt == dataset.begin())
+        {
+            std::cout << "Error: no previous date available => " << date << std::endl;
             return;
         }
 
-        datasetIt = dataset.lower_bound(_input[inputIt].first);
-
-        if (datasetIt == dataset.end())
-            --datasetIt;
-        else if (datasetIt->first != _input[inputIt].first)
-        {
-            if (datasetIt == dataset.begin())
-            {
-                std::cout << "Error: no previous date available => " << _input[inputIt].first << std::endl;
-                continue;
-            }
-
-            --datasetIt;
-        }
-
-        printValue = _input[inputIt].second * datasetIt->second;
-        std::cout << _input[inputIt].first << " => " << _input[inputIt].first << " = " << printValue << std::endl;
+        --datasetIt;
     }
+
+    printValue = value * datasetIt->second;
+    std::cout << date << " => " << value << " = " << printValue << std::endl;
 }
