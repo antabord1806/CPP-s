@@ -14,11 +14,10 @@ int main(void)
     try
     {
         Bureaucrat a("Ze Manel", 10);
-        AForm* b = new ShrubberyCreationForm("arvore");
-        a.signForm(*b);
-        a.executeForm(*b);
-        std::cout << *b << std::endl;
-        delete b;
+        ShrubberyCreationForm form0("arvore");
+        a.signForm(form0);
+        a.executeForm(form0);
+        std::cout << form0 << std::endl;
     }
     catch (std::exception &e)
     {
@@ -29,11 +28,10 @@ int main(void)
     try
     {
         Bureaucrat c("Ze Maria", 10);
-        AForm* b = new RobotomyRequestForm("robot");
-        c.signForm(*b);
-        c.executeForm(*b);
-        std::cout << *b << std::endl;
-        delete b;
+        RobotomyRequestForm form1("robot");
+        c.signForm(form1);
+        c.executeForm(form1);
+        std::cout << form1 << std::endl;
     }
     catch (std::exception &e)
     {
@@ -44,11 +42,10 @@ int main(void)
     try
     {
         Bureaucrat f("Ze Maria", 10);
-        AForm* b = new PresidentialPardonForm("presidential");
-        f.signForm(*b);
-        f.executeForm(*b);
-        std::cout << *b << std::endl;
-        delete b;
+        PresidentialPardonForm form2("presidential");
+        f.signForm(form2);
+        f.executeForm(form2);
+        std::cout << form2 << std::endl;
     }
     catch (std::exception &e)
     {
@@ -59,11 +56,10 @@ int main(void)
     try
     {
         Bureaucrat a("Ze Manel", 150);
-        AForm* b = new ShrubberyCreationForm("arvore");
-        a.signForm(*b);
-        a.executeForm(*b);
-        std::cout << *b << std::endl;
-        delete b;
+        ShrubberyCreationForm form3("arvore");
+        a.signForm(form3);
+        a.executeForm(form3);
+        std::cout << form3 << std::endl;
     }
     catch (std::exception &e)
     {
@@ -74,12 +70,11 @@ int main(void)
     try
     {
         Bureaucrat f("Ze Maria", 10);
-        AForm* b = new PresidentialPardonForm("presidential");
-        f.signForm(*b);
-        f.executeForm(*b);
-        f.signForm(*b);
-        std::cout << *b << std::endl;
-        delete b;
+        PresidentialPardonForm form4("presidential");
+        f.signForm(form4);
+        f.executeForm(form4);
+        f.signForm(form4);
+        std::cout << form4 << std::endl;
     }
     catch (std::exception &e)
     {
