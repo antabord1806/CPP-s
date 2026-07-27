@@ -16,7 +16,7 @@ int main(void)
     {
         Bureaucrat a("Ze Manel", 150);
         Intern rando;
-        AForm* b = rando.makeForm(std::string("shrubbery creation"), "arvore");
+        AForm* b = rando.makeForm(std::string("Shrubbery creation"), "arvore");
         a.signForm(*b);
         a.executeForm(*b);
         std::cout << *b << std::endl;
@@ -32,7 +32,7 @@ int main(void)
     {
         Bureaucrat a("Ze Manel", 10);
         Intern rando;
-        AForm* b = rando.makeForm(std::string("robotomy request"), "robo");
+        AForm* b = rando.makeForm(std::string("Robotomy request"), "robo");
         a.signForm(*b);
         a.executeForm(*b);
         std::cout << *b << std::endl;
@@ -48,7 +48,7 @@ int main(void)
     {
         Bureaucrat a("Ze Manel", 10);
         Intern rando;
-        AForm* b = rando.makeForm(std::string("presidential pardon"), "pardon");
+        AForm* b = rando.makeForm(std::string("Presidential pardon"), "pardon");
         a.signForm(*b);
         a.executeForm(*b);
         std::cout << *b << std::endl;
@@ -64,7 +64,7 @@ int main(void)
     {
         Bureaucrat a("Ze Manel", 150);
         Intern rando;
-        AForm* b = rando.makeForm(std::string("shrubbery creation"), "arvore");
+        AForm* b = rando.makeForm(std::string("Shrubbery creation"), "arvore");
         a.signForm(*b);
         a.executeForm(*b);
         a.signForm(*b);

@@ -16,26 +16,26 @@ Intern &Intern::operator=(const Intern &copy){
 }
 
 AForm* Intern::makeForm(std::string name, std::string target){
-    std::auto_ptr<AForm> form;
 
-    if (name == "shrubbery creation" || name == "shrubberycreation"){
-        std::cout << "Intern creates " << name << std::endl;
-        form.reset(new ShrubberyCreationForm(target));
-        return form.release();
+    std::string forms[] = {"Shrubbery creation", "Robotomy request", "Presidential pardon"};
+
+    int i = 0;
+
+    for (; i < forms.lenght(); i++){
+        if (name == forms[i])
+            break;
     }
-    if (name == "robotomy request" || name == "robotomyrequest"){
-        std::cout << "Intern creates " << name << std::endl;
-        form.reset(new RobotomyRequestForm(target));
-        return form.release();
+    switch (i)
+    {
+        case 0;
+            return (new ShrubberyCreationForm(target));
+        case 1;
+            return (new RobotomyRequestForm(target));
+        case 2;
+            return (new PresidentialPardonForm(target));
+        default;
+            throw InvalidForm();
     }
-    if (name == "presidential pardon" || name == "presidentialpardon"){
-        std::cout << "Intern creates " << name << std::endl;
-        form.reset(new PresidentialPardonForm(target));
-        return form.release();
-    }
-    std::cout << "I dont know what " << name << " even means, I think this is an" << std::endl;
-    throw InvalidForm();
-    return NULL;
 }
 
 const char* Intern::InvalidForm::what() const throw(){
