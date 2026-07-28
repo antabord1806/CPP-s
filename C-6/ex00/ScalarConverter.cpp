@@ -109,8 +109,6 @@
             return ;
         }
 
-        std::string s = "hello world";
-
         int count = 0;
 
         for (size_t i = 0; i < literal.length(); i++)
@@ -128,13 +126,11 @@
         
         if (IsChar(literal)){
             std::cout << "Is char" << std::endl;
-            std::stringstream stream(literal);
-            long n = 0;
-            stream >> n;
+            char c = literal[0];
             std::cout << "Char: " << literal << std::endl;
-            std::cout << "Int: " << n << std::endl;
-            std::cout << "Float: " << n << ".0f" << std::endl;
-            std::cout << "Double: " << n << ".0" << std::endl;
+            std::cout << "Int: " << static_cast<int>(c) << std::endl;
+            std::cout << "Float: " << static_cast<int>(c) << ".0f" << std::endl;
+            std::cout << "Double: " << static_cast<int>(c) << ".0" << std::endl;
             std::cout << "Pseudo: " << "Impossible" << std::endl;
         }
 
@@ -196,7 +192,7 @@
                     std::cout << f << ".0f" << std::endl;
                 else
                     std::cout << f << "f" << std::endl;
-                std::cout << "Double: " << static_cast<double>(f) << std::endl;
+                std::cout << "Double: " << std::fixed << std::setprecision(1) << n << std::endl;
             }
             catch(std::exception &e){
                 std::cout << "Error: " << std::endl;
@@ -221,15 +217,15 @@
                     std::cout << c <<std::endl;
                 }
                 std::cout << "Int: ";
-                if (n < static_cast<float>(INT_MIN) || n > static_cast<float>(INT_MAX))
+                if (n < static_cast<double>(INT_MIN) || n > static_cast<double>(INT_MAX))
                     std::cout << "impossible" << std::endl;
                 else{
                     int tmp = static_cast<int>(n);
                     std::cout << tmp << std::endl;
                 }
                 std::cout << "Float: ";
-                std::cout << static_cast<float>(n) << "f" << std::endl;
-                std::cout << "Double: " << n << std::endl;
+                std::cout << std::fixed << std::setprecision(1) <<static_cast<float>(n) << "f" << std::endl;
+                std::cout << "Double: " << std::fixed << std::setprecision(1) << n << std::endl;
             }
                 catch(std::exception &e){
                 std::cout << "Error: " << std::endl;
@@ -239,3 +235,4 @@
         else
             std::cout << "Invalid output" << std::endl;
     }
+

@@ -27,4 +27,5 @@ class ScalarConverter{
         static void     convert(const std::string &literal);
 };
 
+
 #endif
