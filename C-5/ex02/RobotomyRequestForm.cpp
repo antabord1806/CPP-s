@@ -30,9 +30,9 @@ RobotomyRequestForm::~RobotomyRequestForm(){}
 void    RobotomyRequestForm::execute(const Bureaucrat &executor)const{
     if (!getSignStatus())
         throw AForm::AFormWasNotSignedYet();
-    if (getSignGrade() != 72)
+    if (executor.getGrade() >= getSignGrade())
         throw AForm::InvalidSignGrade();
-    if (getExecGrade() != 45)
+    if (executor.getGrade() >= getExecGrade())
         throw AForm::InvalidExecGrade();
     std::cout << executor.getName() << " executed " << this->getName() << std::endl;
     if (!(std::rand() % 2))
