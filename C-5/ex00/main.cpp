@@ -19,7 +19,7 @@ int main(void){
     }
     std::cout << "--------------Test3: Incrmenting too much-----------------" << std::endl;
     try{
-        Bureaucrat a("Sho Vitor", 140);
+        Bureaucrat a("Sho Vitor", 3);
         for (int i = 0; i < 11; i++){
             a.incrementGrade();
             std::cout << a << std::endl;

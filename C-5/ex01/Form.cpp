@@ -70,12 +70,11 @@ const char* Form::FormWasAlreadySigned::what() const throw(){
 
 void    Form::beSigned(Bureaucrat &b){
     if (!this->_signed){
-        if (b.getGrade() < this->getSignGrade()){
+        if (b.getGrade() <= this->getSignGrade()){
             this->_signed = true;
             std::cout << b.getName() << " signed form " << this->getName() << "." <<std::endl;
         }
         else{            
-            std::cout << b.getName() << " couldn't sign " << this->getName() << " beacause ";
             throw Bureaucrat::GradeTooLowException();
         }
     }

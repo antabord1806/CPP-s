@@ -80,12 +80,9 @@ const char* AForm::InvalidExecGrade::what() const throw(){
 
 void    AForm::beSigned(Bureaucrat &b){
     if (!getSignStatus()){
-        if (b.getGrade() < this->getSignGrade()){
-            this->_signed = true;
-            std::cout << b.getName() << " signed form " << this->getName() << "." <<std::endl;
-        }
+        if (b.getGrade() <= this->getSignGrade()){
+            this->_signed = true;        }
         else{
-            std::cout << b.getName() << " couldn't sign " << this->getName() << " beacause ";
             throw Bureaucrat::GradeTooLowException();
         }
     }

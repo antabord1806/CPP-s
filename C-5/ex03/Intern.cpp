@@ -21,19 +21,19 @@ AForm* Intern::makeForm(std::string name, std::string target){
 
     int i = 0;
 
-    for (; i < forms.lenght(); i++){
+    for (; i < 3; i++){
         if (name == forms[i])
             break;
     }
     switch (i)
     {
-        case 0;
+        case 0:
             return (new ShrubberyCreationForm(target));
-        case 1;
+        case 1:
             return (new RobotomyRequestForm(target));
-        case 2;
+        case 2:
             return (new PresidentialPardonForm(target));
-        default;
+        default:
             throw InvalidForm();
     }
 }
