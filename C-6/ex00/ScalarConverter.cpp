@@ -136,8 +136,8 @@
 
         else if (IsInt(literal)){
             std::cout << "Is int" << std::endl;
+            double n = 0;
             std::stringstream stream(literal);
-            long long n = 0;
             stream >> n;
             std::cout << "Char: ";
             if (!std::isprint(static_cast<unsigned char>(n)))
@@ -188,11 +188,23 @@
                     std::cout << tmp << std::endl;
                 }
                 std::cout << "Float: ";
-                if (f == static_cast<int>(f))
-                    std::cout << f << ".0f" << std::endl;
+                if (n == static_cast<double>(f)){
+                    if (n < static_cast<double>(INT_MIN) || n > static_cast<double>(INT_MAX))
+                        std::cout << std::scientific << n << ".0f" << std::endl;
+                    else
+                        std::cout << std::fixed << std::setprecision(1) << n << "f" << std::endl;
+                }
                 else
                     std::cout << f << "f" << std::endl;
-                std::cout << "Double: " << std::fixed << std::setprecision(1) << n << std::endl;
+                std::cout << "Double: ";
+                if (f == static_cast<int>(f)){
+                    if (n < static_cast<double>(INT_MIN) || n > static_cast<double>(INT_MAX))
+                        std::cout << std::scientific << n << std::endl;
+                    else
+                        std::cout << std::fixed << std::setprecision(1) << n << std::endl;
+                }
+                else
+                    std::cout << f << std::endl;
             }
             catch(std::exception &e){
                 std::cout << "Error: " << std::endl;
@@ -205,7 +217,7 @@
                 std::stringstream stream(literal);
                 double n = 0;
                 stream >> n;
-                if (stream.fail())
+                if (stream.fail() || n < static_cast<double>(INT_MIN) || n > static_cast<double>(INT_MAX))
                     throw std::runtime_error("Rip!");
                 std::cout << "Char: ";
                 if (n < 0 || n > 127)
@@ -227,8 +239,8 @@
                 std::cout << std::fixed << std::setprecision(1) <<static_cast<float>(n) << "f" << std::endl;
                 std::cout << "Double: " << std::fixed << std::setprecision(1) << n << std::endl;
             }
-                catch(std::exception &e){
-                std::cout << "Error: " << std::endl;
+            catch(std::exception &e){
+                std::cout << "Error: invalid conversion" << std::endl;
             }
         }
 
